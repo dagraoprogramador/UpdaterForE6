@@ -14,7 +14,7 @@ async function vamoLa() {
     //TODO: Make a fetch for each page of results, preferably a recursive loop. The max one page can display is 319 posts.
 
     //fetching api in json form, but giving myself an "id", otherwise the site won't let me.
-    const responseFavs = await fetch("https://e621.net/posts.json?tags=fav:powerguido&limit=319",  {
+    const responseFavs = await fetch(`https://e621.net/posts.json?tags=fav:${username}&limit=319`,  {
         headers: {
             'User-Agent': "Update-Master/1.0 (by Powerguido on e621)"
         },
