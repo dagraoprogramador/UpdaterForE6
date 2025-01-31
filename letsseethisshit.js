@@ -12,13 +12,9 @@ console.log(username)
 async function vamoLa() {
 
     //TODO: Make a fetch for each page of results, preferably a recursive loop. The max one page can display is 319 posts.
-
+    console.log('Username: ' + username);
     //fetching api in json form, but giving myself an "id", otherwise the site won't let me.
-    const responseFavs = await fetch(`https://e621.net/posts.json?tags=fav:${username}&limit=319`,  {
-        headers: {
-            'User-Agent': "Update-Master/1.0 (by Powerguido on e621)"
-        },
-    });
+    const responseFavs = await fetch(`https://updater-backend.vercel.app/api/proxy?url=https%3A%2F%2Fe621.net%2Fposts.json%3Ftags%3Dfav%3A${username}%26limit%3D319`);
 
     const favPosts = await responseFavs.json();
     console.log(favPosts.posts.length)
@@ -54,12 +50,9 @@ async function getThemBoy(){
 
         elementArtCount.innerHTML = `Artists remaining: ${artCount}`;
         await new Promise(r => setTimeout(r, 400));
-    
-        let lastPostTemp = await fetch(`https://e621.net/posts.json?tags=${allTheArtists[number]}&limit=1`, {
-            headers: {
-                'User-Agent': "Update-Master/1.0 (by Powerguido on e621)"
-            }
-        });
+        
+        //encoded the url, because the special symbols(&, :, =, etc.) would've been perceived as part of the proxy, instead of the query
+        let lastPostTemp = await fetch(`https://updater-backend.vercel.app/api/proxy?url=https%3A%2F%2Fe621.net%2Fposts.json%3Ftags%3D${allTheArtists[number]}%26limit%3D1`);
         let lastPostTempJson = await lastPostTemp.json();
         let postDateRaw = lastPostTempJson.posts.map(el => el.created_at);
         let postDate = postDateRaw[0].split(':')[0];
